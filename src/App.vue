@@ -4,6 +4,7 @@
         @createPost="createPost"/>
     <post-list
         :posts="posts"
+        @removePost="removePost"
     />
   </div>
 </template>
@@ -11,6 +12,7 @@
 <script>
 import PostForm from "@/components/PostForm"
 import PostList from "@/components/PostList"
+
 export default {
   components: {
     PostList, PostForm
@@ -28,9 +30,15 @@ export default {
 
   methods: {
     createPost(newPost) {
+      if (newPost.title === '' || newPost.body === '') {
+        return
+      }
       this.posts.push(newPost)
     },
-  }
+    removePost(post) {
+      this.posts = this.posts.filter(oldPost => oldPost.id !== post.id)
+    },
+  },
 }
 </script>
 
@@ -42,15 +50,14 @@ export default {
   box-sizing: border-box;
 }
 
-form{
+form {
   display: flex;
   flex-direction: column;
 }
 
-.app{
+.app {
   padding: 50px;
 }
-
 
 
 </style>
